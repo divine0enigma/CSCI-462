@@ -1,0 +1,80 @@
+{% extends 'CreateSurvey/template.html' %}
+{% block title %}{{ survey }}{% endblock %}
+{% block body %}
+
+    {% if response.submitted == False %}
+<div class="container-fluid questions-container">
+    <div class="row">
+        <!-- Right Survey Info -->
+        <div class="col-sm-8 col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>{{ response.survey.survey_title }}</h3>
+                    {% if error_message %}
+                        <p><strong>{{ "SURVEY NOT FOUND" }}</strong></p>
+                    {% endif %}
+<div style="display: inline-table">
+                    <table class="table">
+                        <tr>
+                            <th>Number</th>
+                            <th>Question</th>
+                        </tr>
+                        <tbody>
+                        {% for question in response.survey.question_set.all  %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ question.question_field }}</td>
+                                {% if response.answer_set.count == forloop.counter0  %}
+                                <td>
+                                    <a href="{% url 'CreateSurvey:answer-add' response.id question.id %}" class="btn-favorite">
+                                    <button type="submit" class="btn btn-success btn-xs">
+                                        <span class="glyphicon glyphicon-create"></span>&nbsp; Create Response
+                                        </button>
+                                    </a>
+                                </td>
+                                {% endif %}
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+             </table>
+</div>
+                <div style="display: inline-table">
+                <table class="table">
+                    <tr>
+                        <th>Response</th>
+                    </tr>
+                <tbody>
+                        {% for answer in response.answer_set.all %}
+                            <tr>
+                                <td>{{ answer.answer_field }}</td>
+                                <td>
+                                    <a href="{% url 'CreateSurvey:answer-update' response answer.id %}" class="btn-favorite">
+                                    <button type="submit" class="btn btn-success btn-xs">
+                                        <span class="glyphicon glyphicon-edit"></span>&nbsp; Update Response
+                                        </button>
+                                    </a>
+                                </td>
+                            </tr>
+                    {% endfor %}
+                </tbody>
+                </table>
+
+                </div>
+                                <a href="{% url 'CreateSurvey:response-submit' response.id %}">
+                                    {% csrf_token %}
+                                <div class="col-sm-offset-3 col-sm-10">
+                                <button type="submit" class="btn btn-success">
+                                    Submit
+                                </button>
+                            </div>
+                                    </a>
+             </div>
+        </div>
+     </div>
+    </div>
+</div>
+        {% else %}
+        <p><strong>{{ "SURVEY SUBMITTED" }}</strong></p>
+    {% endif %}
+
+{% endblock %}

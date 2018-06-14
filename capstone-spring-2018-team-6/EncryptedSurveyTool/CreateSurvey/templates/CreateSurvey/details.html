@@ -1,0 +1,81 @@
+{% extends 'CreateSurvey/template.html' %}
+{% block title %}{{ survey }}{% endblock %}
+{% block body %}
+
+<div class="container-fluid questions-container">
+    <div class="row">
+
+        <!-- Left Survey Info -->
+        <div class="col-sm-4 col-md-3">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h1>{{ survey.survey_title }}</h1>
+{#                    <h2>Anonymous: {{ survey.anonymous }}</h2>#}
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Survey Info -->
+        <div class="col-sm-8 col-md-9">
+
+            <ul class="nav nav-pills" style="margin-bottom: 10px;">
+{#                <li role="presentation" class="active">#}
+{#                    <a href="{% url 'CreateSurvey:details' survey.id %}">View All</a></li>#}
+                <li role="presentation" class="active">
+                    <a href="{% url 'CreateSurvey:question-add' survey.id %}">Add Question</a></li>
+            </ul>
+
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>All Questions</h3>
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th>Number</th>
+                            <th>Question</th>
+{#                            <th>Encrypted</th>#}
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for question in survey.question_set.all  %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ question.question_field }}</td>
+{#                                <td>{{ question.encrypted }}</td>#}
+                                <td>
+                                    <a href="{% url 'CreateSurvey:question-update' survey.id question.id  %}" class="btn-favorite">
+                                    <button type="submit" class="btn btn-success btn-xs">
+                                        <span class="glyphicon glyphicon-edit"></span>&nbsp; Update
+                                        </button>
+                                    </a>
+                                </td>
+                                <td>
+                                    <form action="{% url 'CreateSurvey:question-delete' survey.id question.id %}" method="post" style="display: inline;">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="question_id" value="{{ question.id }}" />
+                                        <button type="submit" class="btn btn-danger btn-xs">
+                                            <span class="glyphicon glyphicon-remove"></span>&nbsp; Delete
+                                        </button>
+                                    </form>
+                                </td>
+                             </tr>
+                    {% endfor %}
+                    </tbody>
+             </table>
+             </div>
+        </div>
+     </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+
+

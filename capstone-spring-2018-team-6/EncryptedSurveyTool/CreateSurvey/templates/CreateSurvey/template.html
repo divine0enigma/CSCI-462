@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Encrypted Survey Tool{% endblock %}</title>
+
+    <!-- Loads path to static files -->
+
+{% load staticfiles %}
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+      integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+      crossorigin="anonymous">
+<link rel="stylesheet" type="text/css" href="{% static 'CreateSurvey/style.css' %}"/>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"
+        integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+        crossorigin="anonymous"></script>
+</head>
+
+
+    <!-- Navbar -->
+
+<nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+
+        <!-- Header -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNav">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+
+            </button>
+            <a class="navbar-brand" href="{% url 'CreateSurvey:index' %}">Booz | Allen | Hamilton</a>
+        </div>
+
+        <!--Items-->
+        <div class="collapse navbar-collapse" id="topNav">
+            <ul class="nav navbar-nav">
+                <li class="active">
+                    <a href="{% url 'CreateSurvey:survey-add' %}">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>&nbsp;
+                        Create Surveys
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="{% url 'CreateSurvey:index' %}">
+                        <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>&nbsp;
+                        Manage Surveys
+                    </a>
+                </li>
+            </ul>
+{#            <form class="navbar-form navbar-left" role="search" method="get" action="{%  url 'CreateSurvey:index' %}">#}
+{#                <div class="form-group">#}
+{#                    <input type="text" class="form-control" name="query" value="{{ request.GET.query }}">#}
+{#                </div>#}
+{#                <button type="submit" class="btn btn-inverse">Search</button>#}
+{#            </form>#}
+            <ul class="nav navbar-nav navbar-right">
+                   {% if user.is_authenticated %}
+                   <li class="active">
+                    <a href= {% url "CreateSurvey:logout" %}>
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp;
+                        Logout
+                    </a>
+                    {% else %}
+                    <li class="active">
+                    <a href= {% url "CreateSurvey:login" %}>
+                        <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp;
+                        Login
+                    </a>
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% block body %}
+{% endblock %}
+</html>

@@ -1,0 +1,52 @@
+{% extends 'CreateSurvey/template.html' %}
+{% block title %}{{ survey }}{% endblock %}
+{% block body %}
+
+<div class="container-fluid questions-container">
+    <div class="row">
+        <!-- Right Survey Info -->
+        <div class="col-sm-8 col-md-9">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h3>{{ survey.survey_title }}</h3>
+                    {% if error_message %}
+                        <p><strong>{{ error_message }}</strong></p>
+                    {% endif %}
+<div style="display: inline-table">
+                    <table class="table">
+                        <tr>
+                            <th>Number</th>
+                            <th>Question</th>
+                        </tr>
+                        <tbody>
+                        {% for question in response.survey.question_set.all %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ question.question_field }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+</div>
+                <div style="display: inline-table">
+                <table class="table">
+                    <tr>
+                        <th>Response</th>
+                    </tr>
+                <tbody>
+                        {% for answer in response.answer_set.all  %}
+                            <tr>
+                                <td>{{ answer.answer_field }}</td>
+                            </tr>
+                        {% endfor %}
+                </tbody>
+                </table>
+                </div>
+
+             </div>
+        </div>
+     </div>
+    </div>
+</div>
+
+{% endblock %}
